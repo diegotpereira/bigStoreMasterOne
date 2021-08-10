@@ -1,0 +1,59 @@
+<template>
+    <div>
+        <div class="container-fluid hero-section d-flex align-content-center justify-content-center flex-wrap ml-auto">
+            <h2 class="title">Bem vindo ao bigStore</h2>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-4 product-box" v-for="(produto, index) in produtos" v-bind:key="index">
+                            <router-link :to="{path: '/produtos/' + produto.id}">
+                                <img :src="produto.image" :alt="produto.nome">
+                                <h5><span v-html="produto.nome"></span>
+                                   <span class="small-text text-muted float-right">R$ {{produto.preco}}</span>
+                                </h5>
+                            </router-link>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+    </div>
+</template>
+<script>
+export default {
+    data() {
+        return {
+            produtos : []
+        }
+    },
+
+    mounted() {
+        axios.get("api/produtos/").then(response => this.produtos = response.data);
+    },
+}
+</script>
+<style scoped>
+    .small-text {
+        font-size: 14px;
+    }
+
+    .product-box {
+        border: 1px solid #cccccc;
+        padding: 10px 15px;
+    }
+
+    .hero-section {
+        height: 30vh;
+        background: #ababab;
+        align-items: center;
+        margin-bottom: 20px;
+        margin-top: -2opx;
+    }
+
+    .title {
+        font-size: 60px;
+        color: #ffffff;
+    }
+</style>
