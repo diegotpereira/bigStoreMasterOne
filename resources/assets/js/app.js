@@ -5,7 +5,7 @@ Vue.use(VueRouter)
 
 window.Vue = require('vue').default;
 
-import App from './views/App'
+import App from './views/App.vue'
 import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Register  from './views/Register.vue'
@@ -13,7 +13,7 @@ import SingleProduct from './views/SingleProduct'
 import Checkout from './views/Checkout'
 import Confirmation from './views/Confirmation'
 import UserBoard from './views/UserBoard'
-import Admin from './views/Admin'
+import Admin from './views/Admin.vue'
 
 
 const router = new VueRouter({
@@ -35,7 +35,7 @@ const router = new VueRouter({
             component: Register
         },
         {
-            path: '/produtos/id',
+            path: '/produtos/:id',
             name: 'single-products',
             component: SingleProduct 
         },
