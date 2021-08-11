@@ -17,54 +17,58 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
+        $credentials = [
+            'email' => $request->get('email'),
+            'password' => $request->get('password'),
+        ];
+        
         $status = 401;
         $response = ['error' => 'Unauthorised'];
-
-        if (Auth::attempt($request->only(['email', 'password']))) {
-            # code...
+        
+        if (Auth::attempt($credentials)) {
             $status = 200;
             $response = [
-                'user' => Auth::user(),
                 'token' => Auth::user()->createToken('bigStore')->accessToken,
+                'user' => Auth::user()
             ];
         }
-
+        
         return response()->json($response, $status);
     }
 
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|max:50',
+            'name' => 'required',
             'email' => 'required|email',
-            'password' => 'required|min:6',
+            'password' => 'required',
             'c_password' => 'required|same:password',
         ]);
 
         if ($validator->fails()) {
-            # code...
             return response()->json(['error' => $validator->errors()], 401);
         }
+        
+        $input = $request->all();
+        $input['password'] = bcrypt($input['password']);
+        
+        $user = User::create($input);
 
-        $data = $request->only(['name', 'email', 'password']);
-        $data['password'] = bcrypt($data['password']);
-
-        $user = User::create($data);
-        $user->is_admin = 0;
-
-        return response()->json([
+        $success = [
             'user' => $user,
             'token' => $user->createToken('bigStore')->accessToken,
-        ]);
+        ];
+        
+        return response()->json($success);
     }
 
     public function show(User $user)
     {
-        return response()->json($user);
+        return response()->json($user,200);
     }
 
     public function showPedidos(USer $user)
     {
-        return response()->json($user->pedidos()->with(['prdouto'])->get());
+        return response()->json($user->pedidos()->with(['produto'])->get(), 200);
     }
 }
