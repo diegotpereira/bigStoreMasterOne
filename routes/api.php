@@ -19,14 +19,14 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-Route::post('login', 'UserController@login');;
+Route::post('login', 'UserController@login');
 Route::post('register', 'UserController@register');
 
 Route::get('/produtos', 'ProdutoController@index');
 Route::post('/upload-file', 'ProdutoController@uploadFile');
 Route::get('/produtos/{produto}', 'ProdutoController@show');
 
-route::group(['middleware' => 'auth:api'], function() {
+Route::group(['middleware' => 'auth:api'], function() {
     Route::get('/users', 'UserController@index');
     Route::get('/users/{user}', 'UserController@show');
     Route::patch('users/{user}', 'UserController@update');

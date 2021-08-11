@@ -25,7 +25,7 @@ export default {
     },
 
     beforeMount() {
-        axios.get('/api/produtos/${this.$route.params.id')
+        axios.get(`/api/produtos/${this.$route.params.id}`)
              .then(response => {
                  this.produto = response.data
              })
@@ -38,6 +38,9 @@ export default {
 </script>
 <style scoped>
     .small-text {
+        font-size: 18px;
+    }
+    .title {
         font-size: 36px;
     }
 </style>

@@ -35,7 +35,12 @@ export default {
 
              axios.get('/api/produtos/')
                   .then(response => {
+                      this.produtos = response.data
                       
+                  })
+
+                  .catch(error => {
+                      console.error(error);
                   })
     },
 }

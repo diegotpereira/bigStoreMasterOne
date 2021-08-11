@@ -7,8 +7,8 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="row">
-                        <div class="col-md-4 product-box" v-for="(produto, index) in produtos" v-bind:key="index">
-                            <router-link :to="{path: '/produtos/' + produto.id}">
+                        <div class="col-md-4 product-box" v-for="(produto, index) in produtos" :key="index">
+                            <router-link :to="{ path: '/produtos/' + produto.id}">
                                 <img :src="produto.image" :alt="produto.nome">
                                 <h5><span v-html="produto.nome"></span>
                                    <span class="small-text text-muted float-right">R$ {{produto.preco}}</span>
@@ -31,8 +31,14 @@ export default {
     },
 
     mounted() {
-        axios.get("api/produtos/").then(response => this.produtos = response.data);
-    },
+        axios.get("api/produtos/")
+             .then(response => {
+                 this.produtos = response.data
+             })
+             .catch(error => {
+                 console.error(error);
+             })
+    }
 }
 </script>
 <style scoped>
@@ -50,7 +56,7 @@ export default {
         background: #ababab;
         align-items: center;
         margin-bottom: 20px;
-        margin-top: -2opx;
+        margin-top: -20px;
     }
 
     .title {

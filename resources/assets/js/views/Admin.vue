@@ -23,15 +23,50 @@
 <script>
 import Main from '../components/admin/Main'
 import Users from '../components/admin/Users'
-import Products from '../components/admin/Products'
+import Produtos from '../components/admin/Products'
 import Pedidos from '../components/admin/Pedidos'
 
 export default {
     data() {
         return {
-            
+            user : null,
+            activeComponent : null
         }
     },
+
+    components: {
+        Main, Users, Produtos, Pedidos
+    },
+
+    beforeMount() {
+        this.setComponent(this.$route.params.page)
+        this.user = JSON.parse(localStorage.getItem('user'))
+        axios.defaults.headers.common['Content-Type'] = 'application/json'
+        axios.defaults.headers.common['Authorization'] = 'Bearer' + localStorage.getItem('jwt')
+    },
+
+    methods: {
+        setComponent(value) {
+            switch(value) {
+                case "users": 
+                     this.activeComponent = Users 
+                     this.$router.push({name : 'admin-pages', params : {page: 'users'}})
+                     break;
+                 case "pedidos":
+                     this.activeComponent = pedidos 
+                     this.$router.push({name : 'admin-pages', params : {page: 'pedidos'}}) 
+                     break;
+                  case "produtos":
+                      this.activeComponent = Produtos 
+                      this.$router.push({name : 'admin-pages', params : {page : 'produtos'}})
+                      break;
+                  default:
+                      this.activeComponent = Main 
+                      this.$router.push({ name : 'admin'})    
+                      break;
+            }
+        }
+    }
 }
 </script>
 <style lang="">
