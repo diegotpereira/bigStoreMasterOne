@@ -13,6 +13,7 @@
                                 <h5><span v-html="produto.nome"></span>
                                    <span class="small-text text-muted float-right">R$ {{produto.preco}}</span>
                                 </h5>
+                                <button class="col-md-4 btn btn-sm btn-primary float-right">Comprar Agora</button>
                             </router-link>
                         </div>
                     </div>

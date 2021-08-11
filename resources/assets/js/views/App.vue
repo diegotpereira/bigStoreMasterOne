@@ -14,7 +14,7 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <router-link :to="{ name: 'login' }" class="nav-link" v-if="!isLoggedIn">Entrar</router-link>
-                        <router-link :to="{ name: 'register' }" class="nav-link" v-if="!isLoggedIn">Cadastrar
+                        <router-link :to="{ name: 'register' }" class="nav-link" v-if="!isLoggedIn">Cadastrar</router-link>
                             <span v-if="isLoggedIn">
                                 <router-link :to="{ name: 'userboard'}" class="nav-link" v-if="user_type == 0">, Olá, {{name}}</router-link>
                                 <router-link :to="{ name: 'admin'}" class="nav-link" v-if="user_type == 1">Olá, {{name}}</router-link>
@@ -35,7 +35,7 @@ export default {
         return {
             name: null,
             user_type: 0,
-            isLoggedIn: localStorage.getItem('bigStore.jwt') != null
+            isLoggedIn: localStorage.getItem('jwt') != null
         }
     },
 
@@ -46,20 +46,20 @@ export default {
     methods: {
         setDefaults() {
             if (this.isLoggedIn) {
-                let user = JSON.parse(localStorage.getItem('bigStore.user'))
+                let user = JSON.parse(localStorage.getItem('user'))
                 this.name = user.name
                 this.user_type = user.is_admin
             }
         },
 
         change() {
-            this.isLoggedIn = localStorage.getItem('bigStore.jwt') != null
+            this.isLoggedIn = localStorage.getItem('jwt') != null
             this.setDefaults()
         },
 
         logout() {
-            localStorage.removeItem('bigStore.jwt')
-            localStorage.removeItem('bigStore.user')
+            localStorage.removeItem('jwt')
+            localStorage.removeItem('user')
             this.change()
             this.$router.push('/')
         }

@@ -40,33 +40,41 @@ export default {
             password: ""
         }
     },
-
-    methods: {
-        handleSubmit(e) {
-            e.preventDefault()
-            if (this.password.length > 0) {
-                let email = this.email
-                let password = this.password
-
-                axios.post('api/login', {email, password}).then(response => {
-                    let user = response.data.user
-                    let is_admin = user.is_admin
-
-                    localStorage.setItem('bigStore.user', JSON.stringify(user))
-                    localStorage.setItem('bigStore.jwt', response.data.token)
-
-                    if (localStorage.getItem('bigStore.jwt') != null) {
-                        this.$emit('loggedIn')
-                        if (this.$route.params.nextUrl != null) {
-                            this.$router.push(this.$route.params.nextUrl)
-                        } else {
-                            this.$router.push((is_admin == 1 ? 'admin' : 'dashboard'))
+    methods : {
+            handleSubmit(e){
+                e.preventDefault()
+                
+                if (this.password.length > 0) {
+                    axios.post('http://127.0.0.1:8000/api/login', {
+                        email: this.email,
+                        password: this.password
+                      })
+                      .then(response => {
+                        let is_admin = response.data.user.is_admin
+                        localStorage.setItem('user',JSON.stringify(response.data.user))
+                        localStorage.setItem('jwt',response.data.token)
+                        
+                        if (localStorage.getItem('jwt') != null){
+                            this.$emit('loggedIn')
+                            if(this.$route.params.nextUrl != null){
+                                this.$router.push(this.$route.params.nextUrl)
+                            }
+                            else {
+                                if(is_admin== 1){
+                                    this.$router.push('admin')
+                                }
+                                else {
+                                    this.$router.push('dashboard')
+                                }
+                            }
                         }
-                    }
-                });
+                      })
+                      .catch(function (error) {
+                        console.error(error);
+                      });
+                }
             }
-        }
-    }
+        },
 }
 </script>
 <style lang="">

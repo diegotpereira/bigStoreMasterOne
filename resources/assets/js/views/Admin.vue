@@ -21,8 +21,17 @@
     </div>
 </template>
 <script>
+import Main from '../components/admin/Main'
+import Users from '../components/admin/Users'
+import Products from '../components/admin/Products'
+import Pedidos from '../components/admin/Pedidos'
+
 export default {
-    
+    data() {
+        return {
+            
+        }
+    },
 }
 </script>
 <style lang="">
