@@ -27,7 +27,7 @@ class PedidoController extends Controller
         return response()->json([
             'status' => $status,
             'data' => $pedido,
-            'message' => $status ? 'Peido Entregue!' : 'Erro ao entregar pedido'
+            'message' => $status ? 'Pedido Entregue!' : 'Erro ao entregar pedido'
         ]);
     }
 
@@ -51,7 +51,7 @@ class PedidoController extends Controller
     {
         //
         $pedido = Pedido::create([
-             'produto_id' => $request->produto_id,
+             'produto_id' => $request->produto,
              'user_id' => Auth::id(),
              'quantidade' => $request->quantidade,
              'endereco' => $request->endereco
