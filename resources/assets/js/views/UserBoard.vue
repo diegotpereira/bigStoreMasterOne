@@ -8,12 +8,12 @@
                 <div class="col-md-12">
                     <br>
                     <div class="row">
-                        <div class="col-md-4 product-box" v-for="(pedido, index) in pedidos" v-bind:key="index">
+                        <div class="col-md-4 product-box" v-for="(pedido, index) in pedidos" :key="index">
                             <img :src="pedido.produto.image" :alt="pedido.produto.nome">
                             <h5><span v-html="pedido.produto.nome"></span><br>
                                 <span class="small-text text-muted">R$ {{pedido.produto.preco}}</span>
                             </h5>
-                            <br>
+                            <hr>
                             <span class="small-text text-muted">Quantidade: {{pedido.quantidade}}
                                 <span class="float-right">{{pedido.entregue == 1 ? "enviado!" : "não enviado"}}</span>
                             </span>
@@ -31,7 +31,7 @@ export default {
     data() {
         return {
             user: null,
-            pedido: []
+            pedidos: []
         }
     },
 
@@ -40,9 +40,9 @@ export default {
         axios.defaults.headers.common['Content-Type'] = 'application/json'
         axios.defaults.headers.common['Authorization'] = 'Bearer' + localStorage.getItem('jwt')
 
-        axios.get('api/users/${this.user.id}/pedidos')
+        axios.get(`api/users/${this.user.id}/pedidos`)
              .then(response => {
-                 then.pedidos = response.data 
+                 this.pedidos = response.data 
              })
 
              .catch(error => {
@@ -51,6 +51,26 @@ export default {
     }
 }
 </script>
-<style lang="">
-    
+<style scoped>
+  .small-text {
+      font-size: 14px;
+  }
+
+  .product-box {
+      border: 1px solid #cccccc;
+      padding: 10px 15px;
+  }
+
+  .hero-section {
+      height: 20vh;
+      background: #ababab;
+      align-items: center;
+      margin-bottom: 20px;
+      margin-top: -20px;
+  }
+
+  .title {
+      font-size: 60px;
+      color: #ffffff;
+  }
 </style>

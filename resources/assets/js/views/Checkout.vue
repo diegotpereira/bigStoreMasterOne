@@ -11,7 +11,7 @@
                     <hr>
                     <label class="row">
                         <span class="col-md-2 float-left">Quantidade: </span>
-                        <input type="number" name="unidades" min="1" :max="produto.unidades" class="col-md-2 float-left" v-model="quantidade" @change="checkUnits">
+                        <input type="number" name="unidades" min="1" :max="produto.unidades" class="col-md-2 float-left" v-model="quantidade" @change="checarUnidades">
                     </label>
                 </div>
                 <br>
@@ -42,7 +42,7 @@ export default {
     data() {
         return {
             endereco: "",
-            quntidade: 1,
+            quantidade: 1,
             isLoggedIn: null,
             produto: []
         }
@@ -53,7 +53,7 @@ export default {
     },
 
     beforeMount() {
-        axios.get('/api/produtos/${this.pid}')
+        axios.get(`/api/produtos/${this.pid}`)
              .then(response => {
                  this.produto = response.data
              })
@@ -68,34 +68,35 @@ export default {
              }
     },
 
-    methods: {
-        login() {
-            this.$router.push({name: 'login', params: { nextUrl: this.$route.fullPath}})
+        methods: {
+            login() {
+                this.$router.push({name: 'login', params: { nextUrl: this.$route.fullPath}})
+            },
+
+            register() {
+                this.$router.push({ name: 'register', params: { nextUrl: this.$route.fullPath}})
         },
 
-        register() {
-            this.$router.push({ name: 'register', params: { nextUrl: this.$route.fullPath}})
-        }
-    },
+        facaPedido(e) {
+            e.preventDefault()
+            axios.post('api/pedidos/', {
+                endereco: this.endereco,
+                quantidade: this.quantidade,
+                produto: this.produto.id
+            })
+            .then(response => {
+                this.$router.push('/confirmation')
+            })
+            .catch(error => {
+                console.error(error);
+            })
+        },
 
-    facaPedido(e) {
-        e.preventDefault()
-        axios.post('api/pedido/', {
-            endereco: this.endereco,
-            quantidade: this.quantidade,
-            produto: this.produto.id
-        })
-        .then(response => {
-            this.$router.push('/confirmation')
-        })
-        .catch(error => {
-            console.error(error);
-        })
-    },
-
-    checkUnits(e) {
-        if (this.quantidade > this.produto.unidades) {
-            this.quantidade = this.produto.unidades
+        checarUnidades(e) {
+            if (this.quantidade > this.produto.unidades) 
+            {
+                this.quantidade = this.produto.unidades
+            }
         }
     }
 }

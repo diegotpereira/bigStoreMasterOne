@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-window.Vue = require('vue').default;
+// window.Vue = require('vue').default;
 
 import App from './views/App.vue'
 import Home from './views/Home.vue'

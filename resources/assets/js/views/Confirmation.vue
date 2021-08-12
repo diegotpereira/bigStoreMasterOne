@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="container-fluid hero-section d-flex align-content-center justify-content-around flex-wrap ml-auto">
+        <div class="container-fluid hero-section d-flex align-content-center justify-content-center flex-wrap ml-auto">
             <h2>
                 <span class="title"><strong>Obrigado a você!</strong></span><br>
                 <span class="medium-text">Seu pedido foi feito.</span><br>
