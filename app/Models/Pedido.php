@@ -12,7 +12,7 @@ class Pedido extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'produto_id', 'user_id', 'quantidade', 'endreco'
+        'produto_id', 'user_id', 'quantidade', 'endereco'
     ];
 
     public function user() 
