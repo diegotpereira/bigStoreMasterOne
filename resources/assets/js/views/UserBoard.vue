@@ -8,7 +8,7 @@
                 <div class="col-md-12">
                     <br>
                     <div class="row">
-                        <div class="col-md-4 product-box" v-for="(pedido, index) in pedidos.data" :key="index">
+                        <div class="col-md-4 product-box" v-for="(pedido, index) in pedidos" :key="index">
                             <img :src="pedido.produto.image" :alt="pedido.produto.nome">
                             <h5><span  v-html="pedido.produto.nome"></span><br>
                                 <span class="small-text text-muted">R$ {{pedido.produto.preco}}</span>
@@ -34,24 +34,15 @@ export default {
             pedidos: [],            
         }
     },
-
-    // computed: {
-    //     produto() {
-    //         return this.$store.getters.produto;
-    //     }
-    // },
-    
     beforeMount() {
         this.user = JSON.parse(localStorage.getItem('user'))
         axios.defaults.headers.common['Content-Type'] = 'application/json'
         axios.defaults.headers.common['Authorization'] = 'Bearer' + localStorage.getItem('jwt')
 
         axios.get('api/users' + this.user.id + '/pedidos')
-        // axios.get(`api/users/${this.user.id}/pedidos`)   
         
              .then(response => {
                  this.pedidos = response.data
-                //  this.produto = response.data
              })
 
              .catch(error => {
