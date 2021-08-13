@@ -82,7 +82,7 @@ export default {
             axios.post('api/pedidos/', {
                 endereco: this.endereco,
                 quantidade: this.quantidade,
-                produto: this.produto.id
+                produto: this.pid
             })
             .then(response => {
                 this.$router.push('/confirmation')
