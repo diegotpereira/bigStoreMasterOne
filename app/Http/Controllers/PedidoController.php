@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pedido;
+use App\Models\Produto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,6 +18,7 @@ class PedidoController extends Controller
     {
         //
         return response()->json(Pedido::with(['produto'])->get(), 200);
+        // return response()->json(Pedido::with('produto')->orderBy('id','DESC')->paginate(10) , 200);
     }
 
     public function entregarPedido(Pedido $pedido)
@@ -122,5 +124,12 @@ class PedidoController extends Controller
             'status' => $status,
             'message' => $status ? 'Pedido excluído!' : 'Erro ao excluir pedido'
         ]);
+    }
+    public function json(Pedido $pedido)
+    {
+        $produtos = $pedido->line_items;
+        $produtosId = array_column($produtos, 'produto_id');
+        $orderedProducts = Produto::whereIn('id', $produtosId)->get()->groupBy('id');
+        return response()->json(['pedidos' => $pedido, 'orderedProducts' =>$orderedProducts->toArray() ]);
     }
 }
